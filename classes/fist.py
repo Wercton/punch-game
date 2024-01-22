@@ -7,11 +7,15 @@ class Fist(pg.sprite.Sprite):
         self.image = get_image('data/images/fist.png', (60, 60), -1)
         self.image = pg.transform.rotate(self.image, 90)
         self.rect = self.image.get_rect()
-        
-        
+        self.health = 3
+
     def update(self):
-        pos = pg.mouse.get_pos()
-        self.rect.center = pos
-        
-    def paint_magic(self):
-        pass
+        if self.health > 0:
+            pos = pg.mouse.get_pos()
+            self.rect.center = pos
+
+    def punch_target(self, target):
+        return self.rect.colliderect(target)
+    
+    def miss_target(self):
+        self.health -= 1
