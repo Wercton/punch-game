@@ -8,10 +8,14 @@ class Game:
         pg.init()
         pg.display.set_caption(TITLE)
         pg.mouse.set_visible(0)
+        pg.font.init()
+        
         self.screen = pg.display.set_mode(SCREEN_SIZE)
         self.clock = pg.time.Clock()
+        self.font_game = pg.font.SysFont('Comic Sans MS', 30)
         
         self.running = True
+        self.is_left_clicked = False
         
         self.fist = Fist()
         self.opponent = FirstOponent()
@@ -32,11 +36,14 @@ class Game:
             if event.type == pg.MOUSEBUTTONDOWN:
                 click = pg.mouse.get_pressed()
                 if click[0]:
+                    self.is_left_clicked = True
                     self.check_combat()
                 elif click[2]:
                     self.isPressed = True
             elif event.type == pg.MOUSEBUTTONUP:
-                pass
+                if self.is_left_clicked:
+                    self.is_left_clicked = False
+                    self.fist.unpunch_effect()
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.running = False
@@ -51,7 +58,8 @@ class Game:
         self.sprites.update()
 
     def draw(self):
-        self.screen.fill(50)
+        self.screen.fill(0)
+        self.opponent.draw_health_bar(self.screen)
         self.sprites.draw(self.screen)
         pg.display.flip()
 
