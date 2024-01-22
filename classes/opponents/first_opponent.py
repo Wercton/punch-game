@@ -49,7 +49,6 @@ class FirstOpponent(pg.sprite.Sprite):
         self.health_bar.subtract_damage()
         self.move_faster()
         self.respawn()
-        print(self.health_bar.width_current_health)
         
     def move_faster(self):
         if self.speed > 0:

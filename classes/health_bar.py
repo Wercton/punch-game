@@ -18,7 +18,6 @@ class HealthBar:
             self.health_effect_lenght -= self.health_change_speed
     
     def draw(self, surface):
-        # TODO adicionar animação
         pg.draw.rect(surface, (100, 0, 0), (self.x, self.y, self.health_effect_lenght, self.h))
         pg.draw.rect(surface, (255, 0, 0), (self.x, self.y, self.width_current_health, self.h))
         pg.draw.rect(surface, (255, 255, 255), (self.x, self.y, self.w, self.h), 2)

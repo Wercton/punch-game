@@ -7,14 +7,14 @@ class Game:
     def __init__(self):
         pg.init()
         pg.display.set_caption(TITLE)
-        pg.mouse.set_visible(0)
+        # pg.mouse.set_visible(0)
         pg.font.init()
         
         self.screen = pg.display.set_mode(SCREEN_SIZE)
         self.clock = pg.time.Clock()
-        self.font_game = pg.font.SysFont('Comic Sans MS', 30)
+        self.font_game = pg.font.SysFont('Comic Sans MS', 60)
         
-        self.running = True
+        self.exit = False
         self.is_left_clicked = False
         self.level = 0
         
@@ -22,16 +22,18 @@ class Game:
         self.main_sprite = pg.sprite.RenderPlain((self.fist))
 
     def run(self):
+        self.running = True
         while self.running:
+            pg.mouse.set_visible(0)
             self.start_level()
             while self.running_level:
                 self.clock.tick(60)
                 self.events()
                 self.update()
                 self.draw()
-        self.quit()
 
     def start_level(self):
+        self.fist.health = 3
         self.running_level = True
         if self.level == 0:
             self.opponent = FirstOpponent()
@@ -42,6 +44,7 @@ class Game:
             if event.type == pg.QUIT:
                 self.running_level = False
                 self.running = False
+                self.exit = True
             if event.type == pg.MOUSEBUTTONDOWN:
                 click = pg.mouse.get_pressed()
                 if click[0]:
@@ -56,6 +59,7 @@ class Game:
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.running_level = False
+                    self.running = False
 
     def check_combat(self):
         if self.fist.punch_target(self.opponent):
@@ -66,6 +70,9 @@ class Game:
     def update(self):
         self.main_sprite.update()
         self.sprites.update()
+        if self.fist.health == 0 or self.opponent.health == 0:
+            self.running_level = False
+            self.running = False
 
     def draw(self):
         self.screen.fill(0)
@@ -73,6 +80,6 @@ class Game:
         self.sprites.draw(self.screen)
         self.main_sprite.draw(self.screen)
         pg.display.flip()
-
+    
     def quit(self):
         pg.quit()

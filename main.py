@@ -1,3 +1,3 @@
-from classes.game import Game
+from classes.menu import Menu
 
-Game().run()
+Menu().start()

@@ -18,9 +18,6 @@ class Fist(pg.sprite.Sprite):
         if self.health > 0:
             pos = pg.mouse.get_pos()
             self.rect.center = pos
-            
-    def draw_health(self, surface, font):
-        pass
 
     def punch_target(self, target):
         self.punch_effect()
