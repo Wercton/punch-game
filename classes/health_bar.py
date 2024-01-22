@@ -2,9 +2,9 @@ import pygame as pg
 
 class HealthBar:
     def __init__(self, opponent_health):
-        self.x = 250
+        self.x = 150
         self.y = 25
-        self.w = 300
+        self.w = 500
         self.h = 20
         
         self.damage_per_hit = self.w // opponent_health
@@ -25,3 +25,5 @@ class HealthBar:
     
     def subtract_damage(self):
         self.width_current_health -= self.damage_per_hit
+        if self.width_current_health < self.damage_per_hit:
+            self.width_current_health = 0

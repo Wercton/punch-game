@@ -1,1 +1,1 @@
-from .first import FirstOponent
+from .first_opponent import FirstOpponent

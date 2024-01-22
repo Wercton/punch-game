@@ -4,7 +4,7 @@ from utils.utils import get_image
 from utils.settings import SCREEN_SIZE
 from random import randint
 
-class FirstOponent(pg.sprite.Sprite):
+class FirstOpponent(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
         self.image = get_image('data/images/Bob.png', (180, 180), -1)
@@ -12,7 +12,8 @@ class FirstOponent(pg.sprite.Sprite):
         self.rect.center = (100, 100)
         
         self.speed = -5
-        self.health = 5
+        self.speed_up = 1
+        self.health = 15
         
         self.health_bar = HealthBar(self.health)
         
@@ -48,9 +49,10 @@ class FirstOponent(pg.sprite.Sprite):
         self.health_bar.subtract_damage()
         self.move_faster()
         self.respawn()
+        print(self.health_bar.width_current_health)
         
     def move_faster(self):
         if self.speed > 0:
-            self.speed += 2
+            self.speed += self.speed_up
         else:
-            self.speed -= 2
+            self.speed -= self.speed_up
