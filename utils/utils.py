@@ -5,7 +5,7 @@ def get_image(path, size, colorkey = None):
     absolute_path = os.path.join('.', path)
     
     try:
-        image = pg.image.load(absolute_path)
+        image = pg.image.load(absolute_path).convert_alpha()
     except pg.error as message:
         print("Image not found: " + absolute_path)
         raise SystemExit(message)

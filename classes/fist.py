@@ -6,6 +6,7 @@ class Fist(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.init_images()
         self.rect = self.image.get_rect()
+        self.mask = pg.mask.from_surface(self.image)
         self.health = 10
 
     def init_images(self):
@@ -30,7 +31,7 @@ class Fist(pg.sprite.Sprite):
         center = self.rect.center
         self.image = self.image_punching
         self.rect.center = center
-        
+
     def unpunch_effect(self):
         center = self.rect.center
         self.image = self.image_normal

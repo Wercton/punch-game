@@ -63,7 +63,10 @@ class Game:
 
     def check_combat(self):
         if self.fist.punch_target(self.opponent):
-            self.opponent.hit()
+            if pg.sprite.spritecollide(self.opponent, [self.fist], False, pg.sprite.collide_mask):
+                self.opponent.hit()
+            else:
+                self.fist.miss_target()
         else:
             self.fist.miss_target()
 

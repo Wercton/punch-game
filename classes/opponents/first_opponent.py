@@ -10,12 +10,14 @@ class FirstOpponent(pg.sprite.Sprite):
         self.image = get_image('data/images/Bob.png', (180, 180), -1)
         self.rect = self.image.get_rect()
         self.rect.center = (100, 100)
+        self.mask = pg.mask.from_surface(self.image)
         
         self.speed = -5
         self.speed_up = 1
         self.health = 15
         
         self.health_bar = HealthBar(self.health)
+        self.respawn()
         
     def update(self):
         if self.health > 0:
