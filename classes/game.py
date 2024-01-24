@@ -2,12 +2,12 @@ import pygame as pg
 from utils.settings import SCREEN_SIZE, TITLE
 from classes.fist import Fist
 from classes.opponents import FirstOpponent
+from classes.fist_health import FistHealth
 
 class Game:
     def __init__(self):
         pg.init()
         pg.display.set_caption(TITLE)
-        # pg.mouse.set_visible(0)
         pg.font.init()
         
         self.screen = pg.display.set_mode(SCREEN_SIZE)
@@ -19,7 +19,9 @@ class Game:
         self.level = 0
         
         self.fist = Fist()
-        self.main_sprite = pg.sprite.RenderPlain((self.fist))
+        self.health_sprite = FistHealth()
+        self.main_sprite = pg.sprite.RenderPlain((self.health_sprite, self.fist))
+
 
     def run(self):
         self.running = True
@@ -73,16 +75,29 @@ class Game:
     def update(self):
         self.main_sprite.update()
         self.sprites.update()
-        if self.fist.health == 0 or self.opponent.health == 0:
+        if self.fist.health == 0:
             self.running_level = False
             self.running = False
+            print("LOST")
+        if self.opponent.health == -1:
+            self.running_level = False
+            self.running = False
+            print("WIN")
 
     def draw(self):
         self.screen.fill(0)
         self.opponent.draw_health_bar(self.screen)
         self.sprites.draw(self.screen)
         self.main_sprite.draw(self.screen)
+        self.draw_text(str(self.fist.health), (250, 250, 250), (self.health_sprite.rect.left - 10, self.health_sprite.rect.top + 7))
         pg.display.flip()
+    
+    def draw_text(self, text, color, pos):
+        #TODO otimizar...
+        self.text_surface = self.font_game.render(text, True, color)
+        self.text_rect = self.text_surface.get_rect()
+        self.text_rect.midtop = pos
+        self.screen.blit(self.text_surface, self.text_rect)
     
     def quit(self):
         pg.quit()

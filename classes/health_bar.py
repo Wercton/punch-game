@@ -1,28 +1,41 @@
 import pygame as pg
+from utils import colors
 
-class HealthBar:
-    def __init__(self, opponent_health):
+class Bar:
+    def __init__(self, amount, type=0):
+        if type == 0:
+            # defense bar
+            self.color1 = colors.BLUE
+            self.color2 = colors.BLUE_DARK
+            self.y = 15
+        else:
+            # health bar
+            self.color1 = colors.RED
+            self.color2 = colors.RED_DARK
+            self.y = 40
         self.x = 150
-        self.y = 25
         self.w = 500
         self.h = 20
         
-        self.damage_per_hit = self.w // opponent_health
-        self.width_current_health = self.w
+        self.damage_per_hit = self.w // amount
+        self.width_current_amount = self.w
         
-        self.health_effect_lenght = self.width_current_health
-        self.health_change_speed = 2
+        self.amount_effect_lenght = self.width_current_amount
+        self.amount_change_speed = 2
     
     def update(self):
-        if self.health_effect_lenght > self.width_current_health:
-            self.health_effect_lenght -= self.health_change_speed
+        if self.amount_effect_lenght > self.width_current_amount:
+            self.amount_effect_lenght -= self.amount_change_speed
     
-    def draw(self, surface):
-        pg.draw.rect(surface, (100, 0, 0), (self.x, self.y, self.health_effect_lenght, self.h))
-        pg.draw.rect(surface, (255, 0, 0), (self.x, self.y, self.width_current_health, self.h))
-        pg.draw.rect(surface, (255, 255, 255), (self.x, self.y, self.w, self.h), 2)
+    def draw(self, surface, color):
+        pg.draw.rect(surface, self.color2, (self.x, self.y, self.amount_effect_lenght, self.h))
+        pg.draw.rect(surface, self.color1, (self.x, self.y, self.width_current_amount, self.h))
+        pg.draw.rect(surface, color, (self.x, self.y, self.w, self.h), 2)
     
     def subtract_damage(self):
-        self.width_current_health -= self.damage_per_hit
-        if self.width_current_health < self.damage_per_hit:
-            self.width_current_health = 0
+        self.width_current_amount -= self.damage_per_hit
+        if self.width_current_amount < self.damage_per_hit:
+            self.width_current_amount = 0
+            
+    def increase_status_back(self):
+        self.width_current_amount = self.w
