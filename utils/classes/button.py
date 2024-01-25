@@ -1,3 +1,5 @@
+from utils.constants import colors
+
 class Button:
     def __init__(self, text, textColor, pos, font):
         self.font = font
@@ -24,7 +26,7 @@ class Button:
 
     def highlight(self):
         self.is_highlighted = True
-        self.text_surface = self.font.render(self.text, True, (0, 255, 255))
+        self.text_surface = self.font.render(self.text, True, colors.NAVY_BLUE)
 
     def unhighlight(self):
         self.is_highlighted = False

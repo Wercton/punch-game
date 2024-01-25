@@ -1,5 +1,5 @@
 import pygame as pg
-from utils import colors
+from utils.constants import colors
 
 class Bar:
     def __init__(self, amount, type=0):

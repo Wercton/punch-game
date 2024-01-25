@@ -1,8 +1,9 @@
 import pygame as pg
-from utils.settings import SCREEN_SIZE, TITLE
-from classes.fist import Fist
+from utils.constants.settings import SCREEN_SIZE, TITLE
+from classes.player.fist import Fist
 from classes.opponents import FirstOpponent
-from classes.fist_health import FistHealth
+from classes.player.fist_health import FistHealth
+from utils.functions.debug import debug
 
 class Game:
     def __init__(self):

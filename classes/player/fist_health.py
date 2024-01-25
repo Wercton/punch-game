@@ -1,6 +1,6 @@
 import pygame as pg
-from utils.utils import get_image
-from utils.settings import SCREEN_SIZE
+from utils.functions.utils import get_image
+from utils.constants.settings import SCREEN_SIZE
 
 class FistHealth(pg.sprite.Sprite):
     def __init__(self):

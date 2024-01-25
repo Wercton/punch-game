@@ -1,5 +1,5 @@
 import pygame as pg
-from utils.utils import get_image
+from utils.functions.utils import get_image
 
 class Fist(pg.sprite.Sprite):
     def __init__(self):

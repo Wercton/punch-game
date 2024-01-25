@@ -1,11 +1,12 @@
 import pygame as pg
 from classes.game import Game
-from classes.button import Button
+from utils.classes.button import Button
+from utils.constants import colors
 
 class Menu(Game):
     def start(self):
-        self.start_button = Button("iniciar", (250, 0, 250), (400, 200), self.font_game)
-        self.exit_button = Button("sair", (250, 0, 250), (400, 250), self.font_game)
+        self.start_button = Button("iniciar", colors.PINK, (400, 200), self.font_game)
+        self.exit_button = Button("sair", colors.PINK, (400, 250), self.font_game)
         self.buttons = [self.start_button, self.exit_button]
         self.choosing = True
         self.game_open()

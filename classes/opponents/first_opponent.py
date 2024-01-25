@@ -1,8 +1,9 @@
 import pygame as pg
-from classes.health_bar import Bar
-from utils.utils import get_image
-from utils.settings import SCREEN_SIZE
-from utils import colors, opponents_status as ops
+from classes.opponents.health_bar import Bar
+from utils.constants import opponents_status as ops
+from utils.functions.utils import get_image
+from utils.constants.settings import SCREEN_SIZE
+from utils.constants import colors
 from random import randint
 
 class FirstOpponent(pg.sprite.Sprite):
@@ -39,14 +40,40 @@ class FirstOpponent(pg.sprite.Sprite):
             self.defense_bar.draw(surface, colors.BLACK)
         
     def move(self):
-        if self.rect.right < 0 or self.rect.left > SCREEN_SIZE[0]:
-            self.respawn()
-        self.rect.x += self.speed
-    
+        if self.stage == 0:
+            if self.rect.right < 0 or self.rect.left > SCREEN_SIZE[0]:
+                self.first_respawn_pattern()
+            self.rect.x += self.speed
+        elif self.stage > 0:
+            if self.rect.bottom < 0 or self.rect.top > SCREEN_SIZE[1]:
+                self.second_respawn_pattern()
+            self.rect.y += self.speed
+        # elif self.stage == 2:
+        #     if self.rect.right < 0 or self.rect.left > SCREEN_SIZE[0] or self.rect.bottom < 0 or self.rect.top > SCREEN_SIZE[1]:
+        #         if randint(0, 1):
+        #             self.first_respawn_pattern()
+        #         else:
+        #             self.second_respawn_pattern()
+        #     print(self.rect.x, end=" - ")
+        #     print(self.rect.y)
+
     def stop(self):
         self.speed = 0
     
     def respawn(self):
+        if self.stage == 0:
+            self.first_respawn_pattern()
+        elif self.stage > 0:
+            self.second_respawn_pattern()
+        # elif self.stage == 2:
+        #     # self.rect.x = 130
+        #     # self.rect.y = 130
+        #     if randint(0, 1):
+        #         self.first_respawn_pattern()
+        #     else:
+        #         self.second_respawn_pattern()
+            
+    def first_respawn_pattern(self):
         height = randint(0, SCREEN_SIZE[1] - 150)
         self.rect.y = height
         if randint(0, 1):
@@ -60,12 +87,27 @@ class FirstOpponent(pg.sprite.Sprite):
                 self.speed *= -1
             self.rect.right = 0
             
+    def second_respawn_pattern(self):
+        width = randint(100, SCREEN_SIZE[0] - 150)
+        self.rect.x = width
+        if randint(0, 1):
+            if self.speed > 0:
+                self.image = pg.transform.flip(self.image, True, False)
+                self.speed *= -1
+            self.rect.top = SCREEN_SIZE[1]
+        else:
+            if self.speed < 0:
+                self.image = pg.transform.flip(self.image, True, False)
+                self.speed *= -1
+            self.rect.bottom = 0
+            
     def hit(self):
         if self.defense == 0:
             self.health -= 1
             self.health_bar.subtract_damage()
             self.move_faster()
             if self.health > 0:
+                self.stage += 1
                 self.defense = ops.MAX_DEFENSE
                 self.defense_bar.increase_status_back()
                 self.respawn()
