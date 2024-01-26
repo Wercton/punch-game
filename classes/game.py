@@ -1,8 +1,6 @@
 import pygame as pg
+from classes.level import Level
 from utils.constants.settings import SCREEN_SIZE, TITLE
-from classes.player.fist import Fist
-from classes.opponents import FirstOpponent
-from classes.player.fist_health import FistHealth
 from utils.functions.debug import debug
 
 class Game:
@@ -19,16 +17,14 @@ class Game:
         self.is_left_clicked = False
         self.level = 0
         
-        self.fist = Fist()
-        self.health_sprite = FistHealth()
-        self.main_sprite = pg.sprite.RenderPlain((self.health_sprite, self.fist))
-
+        self.level_test = Level()
 
     def run(self):
         self.running = True
         while self.running:
             pg.mouse.set_visible(0)
-            self.start_level()
+            # self.start_level()
+            self.running_level = True
             while self.running_level:
                 self.clock.tick(60)
                 self.events()
@@ -38,9 +34,6 @@ class Game:
     def start_level(self):
         self.fist.health = 3
         self.running_level = True
-        if self.level == 0:
-            self.opponent = FirstOpponent()
-            self.sprites = pg.sprite.RenderPlain((self.opponent))
     
     def events(self):
         for event in pg.event.get():
@@ -52,13 +45,13 @@ class Game:
                 click = pg.mouse.get_pressed()
                 if click[0]:
                     self.is_left_clicked = True
-                    self.check_combat()
+                    # self.check_combat()
                 elif click[2]:
                     self.isPressed = True
             elif event.type == pg.MOUSEBUTTONUP:
                 if self.is_left_clicked:
                     self.is_left_clicked = False
-                    self.fist.unpunch_effect()
+                    # self.fist.unpunch_effect()
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.running_level = False
@@ -74,23 +67,25 @@ class Game:
             self.fist.miss_target()
 
     def update(self):
-        self.main_sprite.update()
-        self.sprites.update()
-        if self.fist.health == 0:
-            self.running_level = False
-            self.running = False
-            print("LOST")
-        if self.opponent.health == -1:
-            self.running_level = False
-            self.running = False
-            print("WIN")
+        # self.main_sprite.update()
+        # self.sprites.update()
+        # if self.fist.health == 0:
+        #     self.running_level = False
+        #     self.running = False
+        #     print("LOST")
+        # if self.opponent.health == -1:
+        #     self.running_level = False
+        #     self.running = False
+        #     print("WIN")
+        self.level_test.update()
 
     def draw(self):
         self.screen.fill(0)
-        self.opponent.draw_health_bar(self.screen)
-        self.sprites.draw(self.screen)
-        self.main_sprite.draw(self.screen)
-        self.draw_text(str(self.fist.health), (250, 250, 250), (self.health_sprite.rect.left - 10, self.health_sprite.rect.top + 7))
+        self.level_test.draw()
+        # self.opponent.draw_health_bar(self.screen)
+        # self.sprites.draw(self.screen)
+        # self.main_sprite.draw(self.screen)
+        # self.draw_text(str(self.fist.health), (250, 250, 250), (self.health_sprite.rect.left - 10, self.health_sprite.rect.top + 7))
         pg.display.flip()
     
     def draw_text(self, text, color, pos):

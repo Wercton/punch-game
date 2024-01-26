@@ -7,8 +7,8 @@ from utils.constants import colors
 from random import randint
 
 class FirstOpponent(pg.sprite.Sprite):
-    def __init__(self):
-        pg.sprite.Sprite.__init__(self)
+    def __init__(self, groups):
+        super().__init__(groups)
         self.image = get_image('data/images/Bob.png', (180, 180), -1)
         self.rect = self.image.get_rect()
         self.rect.center = (100, 100)

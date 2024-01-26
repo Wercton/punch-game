@@ -2,8 +2,8 @@ import pygame as pg
 from utils.functions.utils import get_image
 
 class Fist(pg.sprite.Sprite):
-    def __init__(self):
-        pg.sprite.Sprite.__init__(self)
+    def __init__(self, groups):
+        super().__init__(groups)
         self.init_images()
         self.rect = self.image.get_rect()
         self.mask = pg.mask.from_surface(self.image)
@@ -16,10 +16,21 @@ class Fist(pg.sprite.Sprite):
         self.image = self.image_normal
     
     def update(self):
+        self.input()
         if self.health > 0:
             pos = pg.mouse.get_pos()
             self.rect.center = pos
+            
+    def input(self):
+        click = pg.mouse.get_pressed()
+        if not click[0]:
+            self.is_left_clicked = False
+        else:
+            self.is_left_clicked = True
 
+    def check_combat(self):
+        pass
+    
     def punch_target(self, target):
         self.punch_effect()
         return self.rect.colliderect(target)
